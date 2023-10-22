@@ -7,9 +7,23 @@ function removeStyleAndDirAttributes() {
   });
 }
 
-let timer;
+let loopRunning = false;
+
+function startLoop() {
+  if (!loopRunning) {
+    loopRunning = true;
+    const loopFunction = () => {
+      removeStyleAndDirAttributes();
+      requestAnimationFrame(loopFunction);
+    };
+    requestAnimationFrame(loopFunction);
+  }
+}
+
+function stopLoop() {
+  loopRunning = false;
+}
 
 document.addEventListener('keydown', () => {
-  clearTimeout(timer);
-  timer = setTimeout(removeStyleAndDirAttributes, -1);
+    startLoop();
 });
